@@ -1,0 +1,17 @@
+---
+title: The Marvels
+date: '2023-11-12'
+featuredImage: the-marvels.jpg
+tags: 
+  - film
+  - review
+---
+I attended opening night for [The Marvels](https://www.themoviedb.org/movie/609681-the-marvels) as I usually do with MCU films and I wasn’t sure what to expect. How will the 3 main characters work as an ensemble? How will such an OP character fit with “weaker” characters? How light-hearted will it be? Well, ultimately, I think it worked pretty well. You really don’t need to know much about the MCU (prior events are explained where needed) and the characters work to make an enjoyable, if short-ish, movie.
+
+I enjoyed Captain Marvel and saw it on both coasts (multiple times in North Carolina – opening night and with work and in Los Angeles, CA at the El Capitan Theatre). I do think Carol Danvers/Captain Marvel (played by [Brie Larson](https://www.themoviedb.org/person/60073-brie-larson)) is a tough character to make work some of the time due to how powerful she is in the MCU. It is, in someways, similar to Superman as finding credible stories that present the proper challenge can be difficult. I also watched Wandavision and enjoyed the portrayal of Monica Rambeau (played by [Teyonah Parris](https://www.themoviedb.org/person/970219-teyonah-parris)). They have only started to develop her character and this movie continued that process. In my opinion, the standout character in the film is Kamala Khan/Ms. Marvel (played by [Iman Vellani](https://www.themoviedb.org/person/2798462-iman-vellani)). Ms. Marvel is a 16 year old Pakistani American who was first introduced in the Disney+ show that shares her name. When introduced, she continues to be a Captain Marvel “stan”, obsessing over the character and imagining a life where they are friends and teammates. Her levity and innocence help the film find meaning and explore the trauma and baggage of Danvers & Rambeau. Kamala Khan’s presence means we get to see her family again who has come to terms with her superheroics, but is still protective. They continue to be a fun addition and act as a foil and comedic element in the movie.
+
+The villain serves to connect the story from the original Captain Marvel to current events. Dar-Benn (played by [Zawe Ashton](https://www.themoviedb.org/person/118034-zawe-ashton)) is a Kree who is out for revenge against Captain Marvel and she has no qualms about the method. Ultimately, there’s a bit more to conflict than that, but it is, much like many superhero films, fairly basic and not a well-developed rationale for the antagonist. The actress did all she could with the roll, but I just don’t think there was quite enough to work with. Luckily, the side stories of the 3 main characters work well enough to give the story a bit more color. I don’t want to give everything away, but I felt the 1hr 45min runtime wasn’t short on action or humor. I found it enjoyable and fun. Is it the best MCU film? No, but I had fun with it just the same.
+
+There is a bit toward the very end that feels like it would normally occupy a mid or post-credit scene spot, but it is part of the actual movie and it points to something that Marvel is likely setting up. There is also a single mid-credit scene which is interesting, but may not really be directly consequential. It’s hard to say. Finally, there’s a bit of audio post-credits, but not necessary at all…
+
+https://www.youtube.com/watch?v=uwmDH12MAA4

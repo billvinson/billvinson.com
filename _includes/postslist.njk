@@ -1,0 +1,13 @@
+{%- for post in postslist | reverse %}
+	<article class="post-card">
+		<div class="post-preview">
+			<a href="{{ post.url }}">
+				<img src="{{ post.url }}{{ post.data.featuredImage }}" class="post-featured-image-thumb" alt="{{ post.data.title }}">
+			</a>
+			<div class="post-info">
+				<h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+				<time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate("LLLL yyyy") }}</time>
+			</div>
+		</div>
+	</article>
+{%- endfor %}
