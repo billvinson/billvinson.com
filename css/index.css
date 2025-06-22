@@ -57,7 +57,7 @@ html {
 	overflow-y: scroll;
 }
 body {
-	max-width: 40em;
+	max-width: 44em;
 }
 
 /* https://www.a11yproject.com/posts/how-to-hide-content/ */
@@ -241,14 +241,7 @@ header {
 	counter-increment: start-from -1;
 	margin-bottom: 1em;
 }
-/* .postlist-item:before {
-	display: inline-block;
-	pointer-events: none;
-	content: "" counter(start-from, decimal-leading-zero) ". ";
-	line-height: 100%;
-	text-align: right;
-	margin-left: -1.5rem;
-} */
+
 .postlist-date,
 .postlist-item:before {
 	font-size: 0.8125em; /* 13px /16 */
@@ -290,8 +283,8 @@ header {
 }
 
 .post-featured-image-thumb {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   aspect-ratio: 1 / 1;   /* ensures square shape */
   object-fit: cover;     /* crops image to fill square without distortion */
   display: block;
@@ -322,15 +315,8 @@ header {
 .post-metadata time {
 	margin-right: 1em;
 }
-/* 
-img {
-  max-width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin: 1.5rem 0;
-  transition: transform 0.2s ease;
-}
 
-img:hover {
-  transform: scale(1.02);
-} */
+.pswp__dynamic-caption--below {
+  max-width: 700px;
+  padding: 30px 30px 0;
+}

@@ -27,20 +27,10 @@ Next up, I met Billy West. His line was a bit shorter, but still took about 30 �
 
 https://www.youtube.com/watch?v=JLkF9EjZv_o
 
-Photo and Autgraph of Billy West
-
-![Alt text](./IMG_0527.jpg)
-
-![Alt text](./Autograph_2023.04.15_00002.jpg)
-
-Photo and Autograph of Emily Swallow
-
-![Alt text](./IMG_0524.jpg)
-
-![Alt text](./Autograph_2023.04.15_00001.jpg)
-
 Finally, I went to get in line to meet Kevin Eastman, but sadly it was capped, so I bought one of his posters, did a bit of browsing of merch and returned on Sunday to meet him. The poster was already signed, but as I get older, I don’t want to buy merch as much as to obtain memories, so a signed item means nothing if I didn’t get to meet the person. Luckily, I got in his line and got the chance to meet him. He does signings, but also offers a “remark” which is often a little turtle head sketch, so I went with that to personalize the poster a bit. I also tried to buy one of the enamel pins he was selling, but they ended up giving it to me for free. Pictures of both below from where they’re on display in my office.
 
 Finally, here’s a taste of some of the cosplay & miscellanea I saw and thought was worth photographing…
 
 All in all, I really enjoyed myself and got to meet some great people whose work I love. It was largely just a relaxing weekend outside of the standing in line, but that’s kind of what I was wanting 😃
+
+{% smartGallery 2023galleries.sccc %}

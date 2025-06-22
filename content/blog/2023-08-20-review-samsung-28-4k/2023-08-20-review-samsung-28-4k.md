@@ -41,11 +41,11 @@ Regardless of future changes, it is more than I wanted to spend for what is curr
 
 As far as the VESA issues, this was a big deal to me as I dislike my monitor sitting on the desk. It feels MUCH more secure and more aesthetic to me when on an adjustable arm. Also the included stand allows for front/back tilt, but no height adjustment. Given that, you can see here that they chose to inset the mount points which means almost no VESA plate will fit. My solution was to buy a pack of 16mm M4 machine screws from [Lowe’s](https://www.lowes.com/pd/Hillman-4mm-0-7-x-16mm-Phillips-Drive-Machine-Screws-12-Count/999994930) and a set of M4 black ABS spacers on [Amazon](https://www.amazon.com/dp/B0BL6KGFBG). I laid the monitor on a town on my sofa and placed a spacer over each hole and carefully set the plate on top for attaching (somewhat difficult as the arm doesn’t have a detachable VESA plate). I used the 16mm screw, 5mm spacers and the 1-2 mm plate, so I had 9-10mm of mechanical connection between the arm to the display when seems to be good enough.
 
-<img src="./LU28R550UQNXZA_back.jpg">
+![Alt text](./LU28R550UQNXZA_back.jpg)
 
 The on-screen display looks like this:
 
-<img src="./samsung_ur55_osd.jpg">
+![Alt text](./samsung_ur55_osd.jpg)
 
 Like most multi-input monitors, there is a brief popup in the upper-left saying which import is being used. That doesn’t bother me in the least, but Samsung also pops up the above OSD. It occurs at ~2 sec after the screen becomes active and remains on the display for ~4 sec. I find it annoying, but an acceptable tradeoff given the low cost of the display. Others may be more bothered than I am, but Samsung should **absolutely** make this configurable or get rid of it altogether.
 

@@ -48,6 +48,10 @@
 	},
 	"dependencies": {
 		"@zachleat/heading-anchors": "^1.0.3",
-		"eleventy-plugin-youtube-embed": "^1.13.0"
+		"eleventy-plugin-youtube-embed": "^1.13.0",
+		"exifreader": "^4.31.0",
+		"photoswipe": "^5.4.4",
+		"photoswipe-dynamic-caption-plugin": "^1.2.7",
+		"sharp": "^0.34.2"
 	}
 }
