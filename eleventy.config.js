@@ -12,6 +12,7 @@ import fs from "fs/promises";
 import path from "path";
 import ExifReader from "exifreader";
 import { fileURLToPath } from "url";
+import photoShortcode from "./_includes/shortcodes/photo.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -42,20 +43,21 @@ async function buildFigure(imgPath, inputPath, altOverride = "", useFigure = fal
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
 
+	eleventyConfig.addNunjucksAsyncShortcode("photo", photoShortcode);
+
 	eleventyConfig.addFilter("keys", obj => Object.keys(obj));
 
 	// Receives file contents, return parsed data
 	eleventyConfig.addDataExtension("yaml", (contents) => yaml.load(contents));
 
-			// Shortcode for single image
+	// Shortcode for single image
 	eleventyConfig.addNunjucksAsyncShortcode("smartImage", async function (src, alt = "") {
 		const html = await buildFigure(src, this.page.inputPath, alt, false); // false = no <figure>
 		return `<div class="post-gallery" data-pswp-gallery>\n${html}\n</div>`;
 	});
 
-		// Shortcode for galleries
+	// Shortcode for galleries
 	eleventyConfig.addNunjucksAsyncShortcode("smartGallery", async function (images) {
-
 		if (!images || !Array.isArray(images)) {
 			console.warn("smartGallery: expected an array of image filenames, but got:", images);
 			return "<!-- smartGallery: no images found -->";
@@ -74,6 +76,20 @@ export default async function(eleventyConfig) {
 		}
 	});
 
+	// Used for galleries
+	eleventyConfig.addFilter("groupBy", function (array, key) {
+		const groups = {};
+		array.forEach(function (item) {
+			const val = item[key];
+			if (!groups[val]) groups[val] = [];
+			groups[val].push(item);
+		});
+		return Object.keys(groups).map(grouper => ({
+			grouper,
+			items: groups[grouper]
+		}));
+	});
+
 	// Copy the contents of the `public` folder to the output folder
 	// For example, `./public/css/` ends up in `_site/css/`
 	eleventyConfig
@@ -84,6 +100,7 @@ export default async function(eleventyConfig) {
 		.addPassthroughCopy({ "node_modules/photoswipe/dist": "assets/photoswipe" })
 		.addPassthroughCopy({ "node_modules/photoswipe-dynamic-caption-plugin/*.css": "assets/photoswipe-dynamic-caption-plugin" })
 		.addPassthroughCopy({ "node_modules/photoswipe-dynamic-caption-plugin/dist": "assets/photoswipe-dynamic-caption-plugin" })
+		.addPassthroughCopy("img")
 	  .addPassthroughCopy("content/blog/**/*.jpg");
 	
 	// Run Eleventy when these files change:
