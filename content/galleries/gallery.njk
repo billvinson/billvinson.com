@@ -1,0 +1,27 @@
+---
+pagination:
+  data: galleriesArray
+  size: 1
+  alias: galleryInfo
+permalink: "galleries/{{ galleryInfo.year }}/{{ galleryInfo.name | slug }}/page/{{ galleryInfo.page }}/index.html"
+eleventyComputed:
+  title: "{{ galleryInfo.name }} ({{ galleryInfo.year }})"
+---
+
+<h1>Gallery: {{ title | replace("-", " ")}}</h1>
+
+<div class="post-gallery" data-pswp-gallery>
+  <div class="gallery-grid">
+    {% for image in galleryInfo.images %}
+      {% photo image, galleryInfo.year, galleryInfo.name %}
+    {% endfor %}
+  </div>
+</div>
+<nav>
+  {% if galleryInfo.page > 1 %}
+    <a href="../../page/{{ galleryInfo.page - 1 }}/">Previous</a>
+  {% endif %}
+  {% if galleryInfo.page < galleryInfo.totalPages %}
+    <a href="../../page/{{ galleryInfo.page + 1 }}/">Next</a>
+  {% endif %}
+</nav>

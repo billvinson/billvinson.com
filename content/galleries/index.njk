@@ -1,0 +1,20 @@
+---
+title: "Photo Galleries"
+layout: "layouts/base.njk"
+eleventyNavigation:
+  key: Photos
+  order: 2
+---
+
+<h1>Galleries</h1>
+
+{% for year, galleriesForYear in galleries %}
+  <h2>{{ year }}</h2>
+  <ul>
+    {% for name in galleriesForYear | keys %}
+      <li>
+        <a href="/galleries/{{ year }}/{{ name | slug }}/page/1/">{{ name | replace("-", " ") | title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endfor %}
