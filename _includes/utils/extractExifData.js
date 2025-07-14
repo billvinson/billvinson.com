@@ -12,40 +12,44 @@ export default function extractExifData(buffer) {
     const rawCaption = tags?.ImageDescription?.description || "";
     const make = tags?.Make?.description || "";
     const model = tags?.Model?.description || "";
-    const lens = tags?.LensModel?.description || "";
-    const exposure = tags?.ExposureTime?.description || "";
-    const aperture = tags?.FNumber?.description || "";
-    const iso = tags?.ISO?.description || "";
 
     // Clean alt text (no HTML)
-    const alt = rawCaption.replace(/(<([^>]+)>)/gi, "").trim() || "";
+    const alt = (rawCaption).replace(/(<([^>]+)>)/gi, "").trim() || "";
 
-    // figcaption HTML
-    let figcaptionParts = [];
-    if (rawCaption) figcaptionParts.push(rawCaption);
-
-    const cameraParts = [];
-    if (make || model) cameraParts.push(`${make} ${model}`.trim());
-    if (lens) cameraParts.push(`Lens: ${lens}`);
-
-    const settings = [];
-    if (exposure) settings.push(exposure);
-    if (aperture) settings.push(`f/${aperture}`);
-    if (iso) settings.push(`ISO ${iso}`);
-    if (settings.length > 0) cameraParts.push(settings.join(", "));
-
-    if (cameraParts.length > 0) {
-      figcaptionParts.push(`<small class="camera-info">${cameraParts.join(" • ")}</small>`);
+    var captionHTML = ""
+    var lightboxCaptionHTML = ""
+    var captionText = ""
+    var captionCamera = ""
+    if (!make) { 
+      console.log(`Skipping image with empty camera exif values`)
+    } else if (make.toLowerCase() == 'epson') {
+      console.log(`Skipping image with scanner exif values`)
+    } else {
+      // Construct left/right figcaption layout
+      const cameraText = (make || model) ? `${make} ${model}`.trim() : "";
+      captionCamera = `${cameraText ? `<span class="caption-camera"><i class="fa-solid fa-camera"></i> ${cameraText}</span>` : ""}`
     }
+    if (rawCaption) {
+      captionText = rawCaption
+    }
+    captionHTML = `<div class="caption">${captionText}</div>`.trim();
+    lightboxCaptionHTML = `<span class="caption-text">${rawCaption}</span>${captionCamera}`.trim();
 
     return {
       alt,
-      figcaption: figcaptionParts.length > 0 ? figcaptionParts.join("\n") : "",
+      figcaption: captionHTML,
+      lightboxcaption: lightboxCaptionHTML
     };
-  } catch {
+  } catch (error) {
+    console.error("An error occurred:");
+    console.error("Error message:", error.message); // Prints the specific error message
+    console.error("Error name:", error.name);     // Prints the type of error (e.g., SyntaxError, TypeError)
+    console.error("Error stack:", error.stack);   // Prints the call stack, useful for debugging
+
     return {
       alt: "",
       figcaption: "",
+      lightboxcaption: ""
     };
   }
 }

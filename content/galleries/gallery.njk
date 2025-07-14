@@ -8,20 +8,28 @@ eleventyComputed:
   title: "{{ galleryInfo.name }} ({{ galleryInfo.year }})"
 ---
 
-<h1>Gallery: {{ title | replace("-", " ")}}</h1>
+<h1>{{ title | replace("-", " ")}} Photos</h1>
 
 <div class="post-gallery" data-pswp-gallery>
   <div class="gallery-grid">
     {% for image in galleryInfo.images %}
-      {% photo image, galleryInfo.year, galleryInfo.name %}
+      {% photo image, galleryInfo.year, galleryInfo.name | lower | replace(",", "") %}
     {% endfor %}
   </div>
 </div>
-<nav>
-  {% if galleryInfo.page > 1 %}
-    <a href="../../page/{{ galleryInfo.page - 1 }}/">Previous</a>
-  {% endif %}
-  {% if galleryInfo.page < galleryInfo.totalPages %}
-    <a href="../../page/{{ galleryInfo.page + 1 }}/">Next</a>
-  {% endif %}
+<nav class="nav-page">
+  <div class="previous-page">
+    {% if galleryInfo.page > 1 %}
+      <a href="../../page/{{ galleryInfo.page - 1 }}/"><i class="fa-solid fa-caret-left fa-2xl"></i></a>
+    {% else %}
+      &nbsp;
+    {% endif %}
+  </div>
+  <div class="next-page">
+    {% if galleryInfo.page < galleryInfo.totalPages %}
+      <a href="../../page/{{ galleryInfo.page + 1 }}/"><i class="fa-solid fa-caret-right fa-2xl"></i></a>
+    {% else %}
+      &nbsp;
+    {% endif %}
+  </div>
 </nav>

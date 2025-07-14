@@ -1,19 +1,23 @@
 ---
-title: "Photo Galleries"
+title: "Photos"
 layout: "layouts/base.njk"
 eleventyNavigation:
   key: Photos
   order: 2
 ---
 
-<h1>Galleries</h1>
+<h1>{{ title or metadata.title }}</h1>
 
-{% for year, galleriesForYear in galleries %}
+{% set years = galleries | keys | sort | reverse %}
+{% for year in years %}
+  {% set galleriesForYear = galleries[year] %}
   <h2>{{ year }}</h2>
   <ul>
     {% for name in galleriesForYear | keys %}
       <li>
-        <a href="/galleries/{{ year }}/{{ name | slug }}/page/1/">{{ name | replace("-", " ") | title }}</a>
+        <a href="/galleries/{{ year }}/{{ name | slug }}/page/1/">
+          {{ name | replace("-", " ") | title }}
+        </a>
       </li>
     {% endfor %}
   </ul>

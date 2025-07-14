@@ -32,12 +32,11 @@ async function buildFigure(imgPath, inputPath, altOverride = "", useFigure = fal
     path.basename(imgPath);
 
   const url = "/" + path.relative("content", resolvedImagePath).replace(/\\/g, "/");
-
-  return `
-    <a href="${url}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-title="${caption}">
-      <img src="${url}" alt="${caption}" loading="lazy" width="${width}" height="${height}">
-    </a>
-  `;
+  return `<figure>
+		<a href="${url}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-title="${caption}">
+			<img src="${url}" alt="${caption}" loading="lazy" width="${width}" height="${height}">
+		</a>
+  </figure>`;
 }
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
@@ -66,7 +65,8 @@ export default async function(eleventyConfig) {
 		const links = await Promise.all(
 			images.map((img) => buildFigure(img, this.page.inputPath, "", false))
 		);
-		return `<div class="post-gallery" data-pswp-gallery>\n${links.join("\n")}\n</div>`;
+		// console.log(links)
+		return `<div class="post-gallery" data-pswp-gallery><div class="gallery-grid">\n${links.join("\n")}\n</div></div>`;
 	});
 
 	// Drafts, see also _data/eleventyDataSchema.js

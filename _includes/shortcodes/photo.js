@@ -8,7 +8,7 @@ export default async function photoShortcode(src, year, gallery) {
   const thumbUrlPath = `/img/${year}/${gallery}/thumbs/`;
 
   const metadata = await Image(originalPath, {
-    widths: [300, 600, 1200],
+    widths: [300, 600, 1200, "auto"],
     formats: ["webp", "jpeg"],
     outputDir: thumbOutputDir,
     urlPath: thumbUrlPath,
@@ -25,12 +25,14 @@ export default async function photoShortcode(src, year, gallery) {
   // ✅ Declare before usage
   let alt = "";
   let figcaptionHTML = "";
+  let lightboxcaptionHTML = "";
 
   try {
     const buffer = await fs.readFile(originalPath);
-    const { alt: extractedAlt, figcaption } =  extractExifData(buffer); // <-- await here
+    const { alt: extractedAlt, figcaption, lightboxcaption } =  extractExifData(buffer); // <-- await here
     alt = extractedAlt;
     figcaptionHTML = figcaption;
+    lightboxcaptionHTML = lightboxcaption;
   } catch (err) {
     console.warn("EXIF extraction failed:", err);
   }
@@ -51,6 +53,7 @@ export default async function photoShortcode(src, year, gallery) {
   return `<figure>
     <a href="${fullUrl}" data-pswp-width="${pswpWidth}" data-pswp-height="${pswpHeight}">
       ${imageHTML}
+      ${lightboxcaptionHTML ? `<span class="pswp-caption-content">${lightboxcaptionHTML}</span>` : ""}  
     </a>
     ${figcaptionHTML ? `<figcaption>${figcaptionHTML}</figcaption>` : ""}
   </figure>`;

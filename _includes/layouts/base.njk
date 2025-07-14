@@ -21,6 +21,10 @@
 		3. Learn more: https://github.com/11ty/eleventy-plugin-bundle
 		#}
 
+		<link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
+		<link rel="stylesheet" href="/assets/photoswipe-dynamic-caption-plugin/photoswipe-dynamic-caption-plugin.css">
+		<script src="https://kit.fontawesome.com/4fbbfccf76.js" crossorigin="anonymous"></script>
+
 		{#- Add CSS to the bundle #}
 		<style>/* This is an arbitrary CSS string added to the bundle */</style>
 
@@ -35,10 +39,6 @@
 
 		{#- Renders the CSS bundle using a separate file, if you can't set CSP directive style-src: 'unsafe-inline' #}
 		{#- <link rel="stylesheet" href="{% getBundleFileUrl "css" %}"> #}
-
-		<link rel="stylesheet" href="/assets/photoswipe/photoswipe.css">
-		<link rel="stylesheet" href="/assets/photoswipe-dynamic-caption-plugin/photoswipe-dynamic-caption-plugin.css">
-		<script src="https://kit.fontawesome.com/4fbbfccf76.js" crossorigin="anonymous"></script>
 	</head>
 	<body>
 		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
@@ -82,6 +82,7 @@
 				const captionPlugin = new PhotoSwipeDynamicCaption(lightbox, {
 					// Plugins options, for example:
 					type: 'below',
+					captionContent: '.pswp-caption-content',
 				});
 
 				lightbox.init();
