@@ -10,12 +10,15 @@ layout: layouts/base.njk
 	<li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></li>
 	{%- for tag in tags | filterTagList %}
 	{%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-	<li><a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>{%- if not loop.last %}, {% endif %}</li>
+	<li><i class="fa-solid fa-tag"></i>&nbsp;<a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>{%- if not loop.last %}, {% endif %}</li>
 	{%- endfor %}
 </ul>
-
 {% if featuredImage %}
-  <img src="{{ featuredImage }}" alt="Featured image for {{ title }}" class="post-featured-image">
+	{% if year and gallery %}
+		{% photo featuredImage, year, gallery %}
+	{% else %}
+		{% photo featuredImage %}
+	{% endif %}
 {% endif %}
 
 {{ content | safe }}
