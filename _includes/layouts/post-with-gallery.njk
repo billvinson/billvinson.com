@@ -1,0 +1,78 @@
+---
+layout: layouts/base.njk
+---
+
+<article class="blog-post">
+  <h1 class="post-title">{{ title }}</h1>
+
+  <ul class="post-metadata">
+    <li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></li>
+    {%- for tag in tags | filterTagList %}
+    {%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+    <li><i class="fa-solid fa-tag"></i>&nbsp;<a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>{%- if not loop.last %}, {% endif %}</li>
+    {%- endfor %}
+  </ul>
+
+  {% if featuredImage %}
+    <div class="post-gallery" data-pswp-gallery="main">
+      {# <div class="gallery-grid"> #}
+    {% if year and gallery %}
+      {% photo featuredImage, year, gallery %}
+    {% else %}
+      {% photo featuredImage %}
+    {% endif %}
+    {# </div> #}
+    </div>
+  {% endif %}
+
+  <div class="post-body prose">
+    {{ content | safe }}
+  </div>
+
+  <div id="main-photo-gallery">
+    {% gallery images %}
+    <nav id="photo-pagination" class="flex gap-2 mt-4"></nav>
+</div>
+  </div>
+</article>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const perPage = 9;
+
+  const galleryRoot = document.getElementById("main-photo-gallery");
+  if (!galleryRoot) return;
+
+  const images = Array.from(galleryRoot.querySelectorAll(".gallery-grid > *"));
+  const pagination = galleryRoot.querySelector("#photo-pagination");
+
+  function renderPage(page) {
+    images.forEach((el, i) => {
+      if (i >= page*perPage && i < (page+1)*perPage) {
+        el.style.opacity = 0;
+        el.style.display = "";
+        setTimeout(() => el.style.opacity = 1, 10);
+      } else {
+        el.style.display = "none";
+      }
+    });
+
+    pagination.innerHTML = '';
+    for (let i=0; i<Math.ceil(images.length / perPage); i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i+1;
+      btn.style.marginRight = "0.25rem";
+      btn.style.padding = "0.25rem 0.5rem";
+      btn.style.border = "1px solid #ccc";
+      btn.classList.toggle("active", i === page);
+      if (i === page) btn.style.fontWeight = "bold";
+      btn.addEventListener("click", () => renderPage(i));
+      pagination.appendChild(btn);
+    }
+  }
+
+  if (images.length > perPage) {
+    renderPage(0);
+  }
+});
+</script>

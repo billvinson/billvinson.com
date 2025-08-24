@@ -4,7 +4,7 @@ layout: layouts/base.njk
 {# Only include the syntax highlighter CSS on blog posts, included with the CSS per-page bundle #}
 <style>{% include "node_modules/prismjs/themes/prism-okaidia.css" %}</style>
 <style>{% include "css/prism-diff.css" %}</style>
-<h1>{{ title }}</h1>
+<h1 class="post-title">{{ title }}</h1>
 
 <ul class="post-metadata">
 	<li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></li>
@@ -14,11 +14,15 @@ layout: layouts/base.njk
 	{%- endfor %}
 </ul>
 {% if featuredImage %}
+	<div class="post-gallery" data-pswp-gallery="main">
+  	{# <div class="gallery-grid"> #}
 	{% if year and gallery %}
 		{% photo featuredImage, year, gallery %}
 	{% else %}
 		{% photo featuredImage %}
 	{% endif %}
+	{# </div> #}
+	</div>
 {% endif %}
 
 {{ content | safe }}

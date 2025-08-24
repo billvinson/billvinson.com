@@ -1,5 +1,5 @@
 ---
-numberOfLatestPostsToShow: 8
+numberOfLatestPostsToShow: 7
 eleventyNavigation:
   key: Home
   order: 0
@@ -14,7 +14,7 @@ eleventyNavigation:
 
 {% set morePosts = postsCount - numberOfLatestPostsToShow %}
 {% if morePosts > 0 %}
-<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog.njk">the archive</a>.</p>
+<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog/">the archive</a>.</p>
 {% endif %}
 
 {# List every content page in the project #}

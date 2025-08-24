@@ -5,69 +5,78 @@ import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import youtubeEmbed from "eleventy-plugin-youtube-embed";
 import pluginFilters from "./_config/filters.js";
-import yaml from "js-yaml";
-
-import sharp from "sharp";
-import fs from "fs/promises";
+import renderImage from "./_includes/utils/renderImage.js";
+import metadata from './_data/metadata.js';
 import path from "path";
-import ExifReader from "exifreader";
+import yaml from "js-yaml";
 import { fileURLToPath } from "url";
-import photoShortcode from "./_includes/shortcodes/photo.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-import metadata from './_data/metadata.js';
-
-async function buildFigure(imgPath, inputPath, altOverride = "", useFigure = false) {
-  const resolvedImagePath = path.resolve(path.dirname(inputPath), imgPath);
-  const absoluteImagePath = path.resolve(__dirname, resolvedImagePath);
-  const buffer = await fs.readFile(absoluteImagePath);
-
-  const { width, height } = await sharp(buffer).metadata();
-  const tags = ExifReader.load(buffer);
-  const caption =
-    altOverride ||
-    tags?.ImageDescription?.description ||
-    tags?.XPTitle?.description ||
-    path.basename(imgPath);
-
-  const url = "/" + path.relative("content", resolvedImagePath).replace(/\\/g, "/");
-  return `<figure>
-		<a href="${url}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-title="${caption}">
-			<img src="${url}" alt="${caption}" loading="lazy" width="${width}" height="${height}">
-		</a>
-  </figure>`;
-}
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
+  // --- Thumb shortcode (150x150) ---
+  eleventyConfig.addNunjucksAsyncShortcode("thumb", async function(src, imageClassName = "") {
+    return await renderImage({
+      src,
+      imageClassName,
+      pageInputPath: this.page.inputPath,
+      imageOnly: true,
+      useThumbnail: true, // force 150x150 cropped thumbnail
+    });
+  });
 
-	eleventyConfig.addNunjucksAsyncShortcode("photo", photoShortcode);
+  // --- Photo shortcode (full gallery/lightbox) ---
+  eleventyConfig.addNunjucksAsyncShortcode("photo", async function(src, imageClassName = "") {
+    return await renderImage({
+      src,
+      imageClassName,
+      imageOnly: false,
+      useThumbnail: false, // full gallery/lightbox
+      pageInputPath: this.page.inputPath
+    });
+  });
+
+  // Optional: raw image only (no figure/lightbox)
+  eleventyConfig.addNunjucksAsyncShortcode("imgOnly", async function(src, imageClassName = "") {
+    return await renderImage({
+      src,
+      imageClassName,
+      imageOnly: true,
+      useThumbnail: false,
+      pageInputPath: this.page.inputPath
+    });
+  });
+
+  // gallery (calls photo many times)
+  eleventyConfig.addNunjucksAsyncShortcode(
+    "gallery",
+    async function(images, year = null, gallery = null, imageClassName = null) {
+      const rendered = await Promise.all(
+        images.map(src =>
+          renderImage({
+            src,
+            year,
+            gallery,
+            pageInputPath: this.page?.inputPath,
+            imageClassName,
+            imageOnly: false,
+          })
+        )
+      );
+      return `<div class="post-gallery" data-pswp-gallery="main">
+        <div class="gallery-grid">
+          ${rendered.join("\n")}
+        </div>
+      </div>`;
+    }
+  );
 
 	eleventyConfig.addFilter("keys", obj => Object.keys(obj));
 
 	// Receives file contents, return parsed data
 	eleventyConfig.addDataExtension("yaml", (contents) => yaml.load(contents));
-
-	// Shortcode for single image
-	eleventyConfig.addNunjucksAsyncShortcode("smartImage", async function (src, alt = "") {
-		const html = await buildFigure(src, this.page.inputPath, alt, false); // false = no <figure>
-		return `<div class="post-gallery" data-pswp-gallery>\n${html}\n</div>`;
-	});
-
-	// Shortcode for galleries
-	eleventyConfig.addNunjucksAsyncShortcode("smartGallery", async function (images) {
-		if (!images || !Array.isArray(images)) {
-			console.warn("smartGallery: expected an array of image filenames, but got:", images);
-			return "<!-- smartGallery: no images found -->";
-		}
-
-		const links = await Promise.all(
-			images.map((img) => buildFigure(img, this.page.inputPath, "", false))
-		);
-		// console.log(links)
-		return `<div class="post-gallery" data-pswp-gallery><div class="gallery-grid">\n${links.join("\n")}\n</div></div>`;
-	});
 
 	// Drafts, see also _data/eleventyDataSchema.js
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
@@ -100,8 +109,6 @@ export default async function(eleventyConfig) {
 		.addPassthroughCopy({ "node_modules/photoswipe/dist": "assets/photoswipe" })
 		.addPassthroughCopy({ "node_modules/photoswipe-dynamic-caption-plugin/*.css": "assets/photoswipe-dynamic-caption-plugin" })
 		.addPassthroughCopy({ "node_modules/photoswipe-dynamic-caption-plugin/dist": "assets/photoswipe-dynamic-caption-plugin" })
-		.addPassthroughCopy("img")
-	  .addPassthroughCopy("content/blog/**/*.jpg");
 	
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
@@ -162,27 +169,6 @@ export default async function(eleventyConfig) {
 		}
 	});
 
-	// Image optimization: https://www.11ty.dev/docs/plugins/image/#eleventy-transform
-	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
-		// Output formats for each image.
-		formats: ["avif", "webp", "auto"],
-
-		// widths: ["auto"],
-
-		failOnError: false,
-		htmlOptions: {
-			imgAttributes: {
-				// e.g. <img loading decoding> assigned on the HTML tag will override these values.
-				loading: "lazy",
-				decoding: "async",
-			}
-		},
-
-		sharpOptions: {
-			animated: true,
-		},
-	});
-
 	// Filters
 	eleventyConfig.addPlugin(pluginFilters);
 
@@ -191,16 +177,6 @@ export default async function(eleventyConfig) {
 		// slugify: eleventyConfig.getFilter("slugify"),
 		// selector: "h1,h2,h3,h4,h5,h6", // default
 	});
-
-	eleventyConfig.addShortcode("imageLightbox", function(src, alt = "", width = 1200, height = 800) {
-    return `
-			<div class="post-gallery">
-				<a href="${src}" data-pswp-width="${width}" data-pswp-height="${height}" target="_blank" rel="noopener">
-					<img src="${src}" alt="${alt}" loading="lazy">
-				</a>
-			</div>
-    `;
-  });
 
 	eleventyConfig.addShortcode("currentBuildDate", () => {
 		return (new Date()).toISOString();

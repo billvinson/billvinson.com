@@ -7,13 +7,19 @@
 						{% photo post.data.featuredImage, post.data.year, post.data.gallery, "post-featured-image-thumb", true %}
 					{% else %}
 						{% set photoUrl = [post.url, post.data.featuredImage] | join %}
-						{% photo photoUrl, null, null, "post-featured-image-thumb", true %}
+						{% thumb photoUrl, "post-featured-image-thumb" %}
 					{% endif %}
 				{% endif %}
 			</a>
 			<div class="post-info">
-				<h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
-				<time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate("LLLL yyyy") }}</time>
+				<h2 class="post-title"><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+				<ul class="post-metadata">
+					<li><time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate("LLLL yyyy") }}</time></li>
+					{%- for tag in post.data.tags | filterTagList %}
+					{%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+					<li><i class="fa-solid fa-tag"></i>&nbsp;<a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>{%- if not loop.last %}, {% endif %}</li>
+					{%- endfor %}
+				</ul>
 			</div>
 		</div>
 	</article>

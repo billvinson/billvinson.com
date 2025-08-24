@@ -200,9 +200,10 @@ header {
 	align-items: center;
 	padding: 1em;
 }
+
 .home-link {
 	flex-grow: 1;
-	font-size: 1em; /* 16px /16 */
+	font-size: 2em; /* 16px /16 */
 	font-weight: 700;
 }
 .home-link:link:not(:hover) {
@@ -298,12 +299,25 @@ header {
 	justify-content: center;
 	text-transform: capitalize;
 	font-style: italic;
+	text-decoration: none;
 }
+
+a.post-tag,
+a.post-tag:visited,
+a.post-tag:hover,
+a.post-tag:active {
+  color: #dad8d8;
+}
+
 .postlist-item > .post-tag {
 	align-self: center;
 }
 
-/* Tags list */
+.post-title {
+	margin-bottom: 5px;
+}
+
+/* Post metadata - Date & tag list */
 .post-metadata {
 	display: inline-flex;
 	flex-wrap: wrap;
@@ -311,9 +325,25 @@ header {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	margin-bottom: 15px;
+	font-size: 80%;
 }
+
 .post-metadata time {
 	margin-right: 1em;
+}
+
+#main-photo-gallery {
+  padding: 1rem;
+  margin: 2rem 0;
+  border: 2px solid #2a3a4a;
+  border-radius: 0.5rem;
+  background-color: #1c2736;
+  color: #f0f0f0;
+}
+
+#main-photo-gallery .post-gallery {
+	margin-bottom: 15px;
 }
 
 .gallery-grid {
@@ -321,6 +351,55 @@ header {
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
+
+.gallery-grid figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  background-color: #1f2e40;
+  transition: transform 1s, box-shadow 1s, opacity 1s;
+  opacity: 1; /* default visible */
+}
+
+.gallery-grid figure.hidden {
+  opacity: 0;
+  pointer-events: none; /* avoid clicks on hidden figures */
+}
+
+.gallery-grid figure:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.gallery-grid figcaption {
+  color: #f0f0f0;
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+}
+
+/* Pagination buttons */
+#photo-pagination button {
+  cursor: pointer;
+  background: #1f2e40;
+  border: 1px solid #37475a;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.25rem;
+  color: #f0f0f0;
+  transition: background 0.2s;
+}
+#photo-pagination button.active {
+  background: #f0f0f0;
+  color: #1c2736;
+}
+#photo-pagination button:hover {
+  background: #37475a;
+}
+
+/* .gallery-grid > * {
+  transition: opacity 1.5s;
+} */
 
 .gallery-grid figure {
   margin: 0;

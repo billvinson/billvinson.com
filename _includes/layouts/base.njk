@@ -53,6 +53,7 @@
 				{%- for entry in collections.all | eleventyNavigation %}
 					<li class="nav-item"><a href="{{ entry.url }}"{% if entry.url == page.url %} aria-current="page"{% endif %}>{{ entry.title }}</a></li>
 				{%- endfor %}
+				<li class="nav-item"><a href="https://hachyderm.io/@billvinson" rel="me" target="new"><i class="fa-brands fa-mastodon"></i></a></li>
 				</ul>
 			</nav>
 		</header>
@@ -66,7 +67,7 @@
 				import PhotoSwipeDynamicCaption from '/assets/photoswipe-dynamic-caption-plugin/photoswipe-dynamic-caption-plugin.esm.min.js';
 
 				const lightbox = new PhotoSwipeLightbox({
-					gallery: '.post-gallery',
+					gallery: '[data-pswp-gallery]',
 					children: 'a',
 					pswpModule: () => import('/assets/photoswipe/photoswipe.esm.js'),
 
