@@ -43,32 +43,31 @@ async function resolvePaths(src, postFolder) {
 // --- main renderer ------------------------------------------------------
 export default async function renderImage({
   src,
+  usage = 'standalone', // standalone, gallery, index
   pageInputPath = null,
   imageClassName = null,
+  widths = [300, 600, 1600],
   imageOnly = false,
-  useThumbnail = false, // 150px square for index
 }) {
+  const validUsageOptions = new Set(["standalone", "gallery", "index"]);
   if (!src) throw new Error("renderImage: src is required");
-
-  // --- resolve full path and public path ---------------------------------
-  let fullPath, publicPath, outputDir, urlPath;
-
   if (!pageInputPath && typeof this !== "undefined" && this.page?.inputPath) pageInputPath = this.page.inputPath;
   if (!pageInputPath) throw new Error("renderImage: pageInputPath is required");
-
+  if (!validUsageOptions.has(usage.toLocaleLowerCase())) {
+    usage = 'standalone';
+  }
+  
   // const postFolder = path.dirname(pageInputPath).replace(/^\.?\/?content[\\/]?/, "").replace(/\\/g, "/");
   const postFolder = path.dirname(pageInputPath)
     .replace(/^\.?\/?content[\\/]/, "") // strip *any* leading ./content/
     .replace(/^content[\\/]/, "")       // strip plain content/ too
     .replace(/\\/g, "/");
   const resolved = await resolvePaths(src, postFolder);
+  const { fullPath, publicPath } = await resolvePaths(src, postFolder);
+  const outputDir = path.dirname(publicPath).replace(/^\//, '');
+  const urlPath = path.join("/", outputDir);
 
-  fullPath   = resolved.fullPath;
-  publicPath = resolved.publicPath;
-  outputDir  = path.dirname(publicPath).replace(/^\//, '');
-  urlPath    = path.dirname(publicPath);
-
-  console.log("Processing:", src, urlPath, fullPath);
+  console.log("Processing: ", src);
 
   // --- EXIF data ---------------------------------------------------------
   let alt = "", figureCaptionHtml = "", lightboxCaptionHtml = "";
@@ -81,66 +80,58 @@ export default async function renderImage({
   } catch (err) {
     console.warn("EXIF extraction failed:", err);
   }
-
-  // --- generate gallery/lightbox images ---------------------------------
-  const uncropped = await Image(fullPath, {
-    widths: [300, 600, 1600],
-    formats: ["webp", "jpeg"],
-    outputDir: path.join("_site", outputDir),
-    urlPath,
-    sharpOptions: { withoutEnlargement: true },
-    sharpJpegOptions: { quality: 80 },
-  });
-
-  // --- generate thumbnail ------------------------------------------------
-  // if (fullPath.includes("content")) {
-  //   console.log('fullPath HAS content', fullPath)
-  // }
-  // if (urlPath.includes("content")) {
-  //   console.log('urlPath HAS content', urlPath)    
-  // }
-  const thumbMeta = await Image(fullPath, {
-    widths: [150],
-    formats: ["jpeg"],
-    outputDir: path.join("_site", outputDir),
-    urlPath,
-    sharpOptions: { fit: "cover", position: "center", width: 150, height: 150 },
-    sharpJpegOptions: { quality: 80 },
-  });
-
-  // console.log("thumbMeta:", JSON.stringify(thumbMeta, null, 2));
-
-  if (!thumbMeta.jpeg[0]) throw new Error(`Thumbnail JPEG not generated for ${fullPath}`);
-
-  // --- pick display & lightbox images -----------------------------------
+  
   let displayImages, lightboxImage, imageHTML;
-  if (useThumbnail) {
-    displayImages = [thumbMeta.jpeg[0]];
-    lightboxImage = thumbMeta.jpeg[0];
-    imageHTML = Image.generateHTML(thumbMeta, {
+  if (usage.toLowerCase() != 'index' ) {
+    let metadata = await Image(fullPath, {
+      widths: widths,
+      formats: ["jpeg"],
+      outputDir: path.join("_site", outputDir),
+      urlPath,
+      sharpOptions: { withoutEnlargement: true },
+      sharpJpegOptions: { quality: 80 },
+    });
+
+    let thumbnail = null;
+    if (usage.toLocaleLowerCase() == 'standalone') {
+      thumbnail = metadata.jpeg.find(img => img.width === 600) || metadata.jpeg[0];
+    } else {
+      thumbnail = metadata.jpeg.find(img => img.width === 300) || metadata.jpeg[0];
+    }
+    displayImages = [thumbnail];
+    lightboxImage = metadata.jpeg[metadata.jpeg.length - 1]; // largest
+    imageHTML = Image.generateHTML({jpeg: [thumbnail]}, {
+      alt,
+      class: imageClassName,
+      loading: "lazy",
+      decoding: "async",
+    });
+  } else {
+    let metadata = await Image(fullPath, {
+      widths: [150],
+      formats: ["jpeg"],
+      outputDir: path.join("_site", outputDir),
+      urlPath,
+      sharpOptions: { fit: "cover", position: "center", width: 150, height: 150 },
+      sharpJpegOptions: { quality: 80 },
+    });
+
+    // console.log("thumbMeta:", JSON.stringify(thumbMeta, null, 2));
+    if (!metadata.jpeg[0]) throw new Error(`Thumbnail JPEG not generated for ${fullPath}`);
+
+    displayImages = [metadata.jpeg[0]];
+    lightboxImage = metadata.jpeg[0];
+    imageHTML = Image.generateHTML(metadata, {
       alt,
       class: imageClassName,
       loading: "lazy",
       decoding: "async",
       picture: false
     });
-  } else {
-    const galleryJpeg = uncropped.jpeg.find(img => img.width === 300) || uncropped.jpeg[0];
-    displayImages = [galleryJpeg];
-    lightboxImage = uncropped.jpeg[uncropped.jpeg.length - 1]; // largest
-    console.log(galleryJpeg)
-    imageHTML = Image.generateHTML({jpeg: [galleryJpeg]}, {
-      alt,
-      class: imageClassName,
-      loading: "lazy",
-      decoding: "async",
-    });
   }
 
   if (imageOnly) return imageHTML;
 
-  // console.log('LightBoxImage', lightboxImage.url);
-  // console.log('imageHtml', imageHTML);
   return `<figure>
     <a href="${lightboxImage.url}" data-pswp-gallery="main" data-pswp-width="${lightboxImage.width}" data-pswp-height="${lightboxImage.height}">
       ${imageHTML}

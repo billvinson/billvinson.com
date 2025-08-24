@@ -15,13 +15,7 @@ layout: layouts/base.njk
 </ul>
 {% if featuredImage %}
 	<div class="post-gallery" data-pswp-gallery="main">
-  	{# <div class="gallery-grid"> #}
-	{% if year and gallery %}
-		{% photo featuredImage, year, gallery %}
-	{% else %}
 		{% photo featuredImage %}
-	{% endif %}
-	{# </div> #}
 	</div>
 {% endif %}
 

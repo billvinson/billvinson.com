@@ -3,12 +3,8 @@
 		<div class="post-preview">
 			<a href="{{ post.url }}">
 				{% if post.data.featuredImage %}
-					{% if post.data.year and post.data.gallery %}
-						{% photo post.data.featuredImage, post.data.year, post.data.gallery, "post-featured-image-thumb", true %}
-					{% else %}
-						{% set photoUrl = [post.url, post.data.featuredImage] | join %}
-						{% thumb photoUrl, "post-featured-image-thumb" %}
-					{% endif %}
+					{% set photoUrl = [post.url, post.data.featuredImage] | join %}
+					{% thumbnail photoUrl, "post-featured-image-thumb" %}
 				{% endif %}
 			</a>
 			<div class="post-info">

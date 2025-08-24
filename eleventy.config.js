@@ -17,13 +17,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
   // --- Thumb shortcode (150x150) ---
-  eleventyConfig.addNunjucksAsyncShortcode("thumb", async function(src, imageClassName = "") {
+  eleventyConfig.addNunjucksAsyncShortcode("thumbnail", async function(src, imageClassName = "") {
     return await renderImage({
       src,
       imageClassName,
       pageInputPath: this.page.inputPath,
       imageOnly: true,
-      useThumbnail: true, // force 150x150 cropped thumbnail
+			usage: 'index',
     });
   });
 
@@ -33,45 +33,22 @@ export default async function(eleventyConfig) {
       src,
       imageClassName,
       imageOnly: false,
-      useThumbnail: false, // full gallery/lightbox
-      pageInputPath: this.page.inputPath
+      pageInputPath: this.page.inputPath,
+			usage: 'standalone',
     });
   });
-
-  // Optional: raw image only (no figure/lightbox)
-  eleventyConfig.addNunjucksAsyncShortcode("imgOnly", async function(src, imageClassName = "") {
-    return await renderImage({
-      src,
-      imageClassName,
-      imageOnly: true,
-      useThumbnail: false,
-      pageInputPath: this.page.inputPath
-    });
-  });
-
+	
   // gallery (calls photo many times)
-  eleventyConfig.addNunjucksAsyncShortcode(
-    "gallery",
-    async function(images, year = null, gallery = null, imageClassName = null) {
-      const rendered = await Promise.all(
-        images.map(src =>
-          renderImage({
-            src,
-            year,
-            gallery,
-            pageInputPath: this.page?.inputPath,
-            imageClassName,
-            imageOnly: false,
-          })
-        )
-      );
-      return `<div class="post-gallery" data-pswp-gallery="main">
-        <div class="gallery-grid">
-          ${rendered.join("\n")}
-        </div>
-      </div>`;
-    }
-  );
+  eleventyConfig.addNunjucksAsyncShortcode("gallery", async function(images, imageClassName = null) {
+		const rendered = await Promise.all(images.map(src =>renderImage({
+			src,
+			pageInputPath: this.page?.inputPath,
+			imageClassName,
+			imageOnly: false,
+			usage: 'gallery',
+    })));
+		return `<div class="post-gallery" data-pswp-gallery="main"><div class="gallery-grid">${rendered.join("\n")}</div></div>`;
+	});
 
 	eleventyConfig.addFilter("keys", obj => Object.keys(obj));
 
