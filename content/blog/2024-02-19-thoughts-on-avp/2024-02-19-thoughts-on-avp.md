@@ -1,12 +1,11 @@
 ---
 title: Thoughts on AVP
-date: '2024-02-19'
-featuredImage: IMG_2257.jpeg
 tags: 
   - apple
   - hardware
+featuredImage: IMG_2257.jpg
 ---
-I’ve been trying to coalesce my thoughts on AVP. No… not Alien vs. Predator, but rather Apple Vision Pro. I got the opportunity to get a demo in the Apple Store, so I haven’t had an abundance of use, but a few things became clear over the ~30 minutes.
+I’ve been trying to coalesce my thoughts on AVP. No, not Alien vs. Predator, but rather [Apple Vision Pro](https://www.apple.com/apple-vision-pro/). I got the opportunity to get a demo in the Apple Store, so I haven’t had an abundance of use, but a few things became clear over the ~30 minutes.
 
 ## Fit ##
 

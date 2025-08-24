@@ -1,10 +1,9 @@
 ---
 title: Godzilla Minus One
-date: '2024-02-13'
-featuredImage: godzilla-minus-one.jpg
 tags: 
   - film
   - review
+featuredImage: godzilla-minus-one.jpg
 ---
 I got the opportunity to go see [Godzilla Minus One](https://www.themoviedb.org/movie/940721-1-0) back in December and never really had the opportunity to post my thoughts. I was a bit unsure about the subtitling as, admittedly, I’ve become a lazier consume & tend to watch dubbed films more often. Luckily, it was absolutely not an issue. I personally think that this is one of the best entries in the Toho Godzilla franchise.
 

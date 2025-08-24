@@ -1,10 +1,9 @@
 ---
 title: "The Guardians of the Galaxy: Vol 3"
-date: '2023-05-06'
-featuredImage: guardians-of-the-galaxy-vol-3.jpg
 tags: 
   - film
   - review
+featuredImage: guardians-of-the-galaxy-vol-3.jpg
 ---
 Following the original [The Guardians of the Galaxy](https://www.imdb.com/title/tt2015381/) movie is not an easy task. That film came out of nowhere to excite so many and showed that Marvel was willing to play with some of the weirder characters from its long history (Iron Man wans’t top iter, but I also wouldn’t refer to him as “weird”). On paper, the Guardians never made sense; a human, aliens, talking tree, talking raccoon, etc.
 

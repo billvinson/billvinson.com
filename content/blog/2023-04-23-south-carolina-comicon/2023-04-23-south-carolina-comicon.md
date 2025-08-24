@@ -1,11 +1,21 @@
 ---
+layout: layouts/post-with-gallery.njk
 title: South Carolina Comicon 2023
-date: '2023-04-23'
-featuredImage: SCCC.png
 tags: 
-  - convention
+- convention
+- photo gallery
+featuredImage: SCCC.png
+images:
+- IMG_0527.jpg
+- Autograph_2023.04.15_00002.jpg
+- IMG_0524.jpg
+- Autograph_2023.04.15_00001.jpg
+- IMG_0528.jpg
+- IMG_0529.jpg
+- IMG_0531.jpg
+- IMG_0545.jpg
 ---
-I had planned to attend [GalaxyCon Richmond](https://galaxycon.com/pages/richmond) in March 2023, but unfortunately a case of COVID derailed that trip. So, I was looking for alternatives after I got better and stumbled across [SC Comicon](https://www.sccomicon.com) in Greenville, SC. 
+I had planned to attend [GalaxyCon Richmond](https://galaxycon.com/pages/richmond) in March 2023, but unfortunately a case of COVID derailed that trip. So, I was looking for alternatives after I got better and stumbled across [SC Comicon](https://www.sccomicon.com) in Greenville, SC.
 
 I tend to look for a few things in a convention:‌
 
@@ -32,5 +42,3 @@ Finally, I went to get in line to meet Kevin Eastman, but sadly it was capped, s
 Finally, here’s a taste of some of the cosplay & miscellanea I saw and thought was worth photographing…
 
 All in all, I really enjoyed myself and got to meet some great people whose work I love. It was largely just a relaxing weekend outside of the standing in line, but that’s kind of what I was wanting 😃
-
-{% smartGallery 2023galleries.sccc %}

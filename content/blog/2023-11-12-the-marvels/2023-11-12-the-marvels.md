@@ -1,10 +1,9 @@
 ---
 title: The Marvels
-date: '2023-11-12'
-featuredImage: the-marvels.jpg
 tags: 
   - film
   - review
+featuredImage: the-marvels.jpg
 ---
 I attended opening night for [The Marvels](https://www.themoviedb.org/movie/609681-the-marvels) as I usually do with MCU films and I wasn’t sure what to expect. How will the 3 main characters work as an ensemble? How will such an OP character fit with “weaker” characters? How light-hearted will it be? Well, ultimately, I think it worked pretty well. You really don’t need to know much about the MCU (prior events are explained where needed) and the characters work to make an enjoyable, if short-ish, movie.
 
