@@ -1,34 +1,45 @@
 ---
 layout: layouts/base.njk
 ---
+{# Only include the syntax highlighter CSS on blog posts, included with the CSS per-page bundle #}
+<style>{% include "node_modules/prismjs/themes/prism-okaidia.css" %}</style>
+<style>{% include "css/prism-diff.css" %}</style>
+<h1 class="post-title">{{ title }}</h1>
 
-<article class="blog-post">
-  <h1 class="post-title">{{ title }}</h1>
+<ul class="post-metadata">
+  <li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></li>
+  {%- for tag in tags | filterTagList %}
+  {%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+  <li><i class="fa-solid fa-tag"></i>&nbsp;<a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>{%- if not loop.last %}, {% endif %}</li>
+  {%- endfor %}
+</ul>
 
-  <ul class="post-metadata">
-    <li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></li>
-    {%- for tag in tags | filterTagList %}
-    {%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-    <li><i class="fa-solid fa-tag"></i>&nbsp;<a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>{%- if not loop.last %}, {% endif %}</li>
-    {%- endfor %}
-  </ul>
-
-  {% if featuredImage %}
-    <div class="post-gallery" data-pswp-gallery="main">
-      {% photo featuredImage %}
-    </div>
-  {% endif %}
-
-  <div class="post-body prose">
-    {{ content | safe }}
+{% if featuredImage %}
+  <div class="post-gallery" data-pswp-gallery="main">
+    {% photo featuredImage %}
   </div>
+{% endif %}
 
-  <div id="main-photo-gallery">
-    {% gallery images %}
-    <nav id="photo-pagination" class="flex gap-2 mt-4"></nav>
+<div class="post-body prose">
+  {{ content | safe }}
 </div>
-  </div>
-</article>
+
+<div id="main-photo-gallery">
+  {% gallery images %}
+  <nav id="photo-pagination" class="flex gap-2 mt-4"></nav>
+</div>
+
+{%- if collections.posts %}
+{%- set previousPost = collections.posts | getPreviousCollectionItem %}
+{%- set nextPost = collections.posts | getNextCollectionItem %}
+{%- if nextPost or previousPost %}
+<ul class="links-nextprev">
+	{%- if previousPost %}<li class="links-nextprev-prev">← Previous<br> <a href="{{ previousPost.url }}">{{ previousPost.data.title }}</a></li>{% endif %}
+	{%- if nextPost %}<li class="links-nextprev-next">Next →<br><a href="{{ nextPost.url }}">{{ nextPost.data.title }}</a></li>{% endif %}
+</ul>
+{%- endif %}
+{%- endif %}
+
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
