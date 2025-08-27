@@ -5,4 +5,4 @@ eleventyNavigation:
 ---
 # About
 
-I am a person that writes stuff.
+I'm a test engineer who loves technology, movies/TV, comics and walking/hiking.
