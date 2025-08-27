@@ -75,4 +75,5 @@ After we were done in Hohenschwangau, we boarded a bus back to Füssen... or so 
 * [English Garden](https://www.schloesser.bayern.de/englisch/garden/objects/mu_engl.htm)
 * Solor outing in Munich and dinner at the [Ratskellar](https://www.ratskeller.com/files/downloads/english/index.html)
 
+On our final full day in Munich,  
 [^1]: Holiday Inn Munich, Inselkammerstrasse 7-9, Unterhaching 82008 DE
